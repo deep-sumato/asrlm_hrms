@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <base href="/asrlm_hrms/">
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -14,11 +28,10 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>sumato</title>
+  <title>HR Asrlm</title>
   <link rel="manifest" href="manifest.json">
-
   <style>
     /* Fullscreen loader styles */
     body, html {
@@ -44,18 +57,38 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Loader -->
   <div id="loader"></div>
-
-  <!-- Flutter bootstrap -->
   <script src="flutter_bootstrap.js" async></script>
-
+  <!-- Capture PWA install prompt event -->
   <script>
-    // Remove loader when Flutter app finishes loading
-    window.addEventListener('flutter-first-frame', function () {
-      document.getElementById('loader').style.display = 'none';
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      deferredPrompt = e;
     });
+    function promptInstall() {
+      deferredPrompt.prompt();
+    }
+    // Listen for app install event
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      appInstalled();
+    });
+    // Track how PWA was launched (either from browser or as PWA)
+    function getLaunchMode() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      if (deferredPrompt) hasPrompt();
+      if (document.referrer.startsWith('android-app://')) {
+        appLaunchedAsTWA();
+      } else if (navigator.standalone || isStandalone) {
+        appLaunchedAsPWA();
+      } else {
+        window.appLaunchedInBrowser();
+      }
+    }
   </script>
 </body>
 </html>
