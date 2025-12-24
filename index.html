@@ -15,6 +15,7 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
+  <!-- <base href="/"> -->
   <base href="/">
 
   <meta charset="UTF-8">
@@ -34,7 +35,8 @@
   <link rel="manifest" href="manifest.json">
   <style>
     /* Fullscreen loader styles */
-    body, html {
+    body,
+    html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -43,6 +45,7 @@
       align-items: center;
       background: #ffffff;
     }
+
     #loader {
       width: 50px;
       height: 50px;
@@ -51,9 +54,15 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -90,6 +99,18 @@
         window.appLaunchedInBrowser();
       }
     }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then(function (registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(function (err) {
+            console.error('Service Worker registration failed:', err);
+          });
+      });
+    }
   </script>
 </body>
+
 </html>
