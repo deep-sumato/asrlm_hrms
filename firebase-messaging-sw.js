@@ -15,19 +15,19 @@ firebase.initializeApp(firebaseConfig);
 var messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-    console.log("[firebase-messaging-sw.js] BG message:", payload);
+  console.log("[firebase-messaging-sw.js] BG message:", payload);
 
-    var notification = payload.notification || {};
-    var title = notification.title || "Notification";
+  var notification = payload.notification || {};
+  var title = notification.title || "Notification";
 
-    var options = {
-        body: notification.body || "",
-        icon: "/icons/Icon-192.png",
+   var options = {
+    body: notification.body || "",
+    icon: "/icons/Icon-192.png",
 
-        // 🔴 FORCE display
-        tag: 'fcm-' + Date.now(),
-        requireInteraction: true,
-    };
+    // 🔴 FORCE display
+    tag: 'fcm-' + Date.now(),
+    requireInteraction: true,
+  };
 
-    self.registration.showNotification(title, options);
+  self.registration.showNotification(title, options);
 });
