@@ -122875,7 +122875,7 @@ n.toString
 p=A.h8(n)
 n=$.iS().a.Ps$
 n===$&&A.a()
-n.sNz("https://hrasrlm.sumato.tech/api/v1/")
+n.sNz("https://hrasrlm.in/api/v1/")
 s=2
 return A.r(A.a4v(),$async$$1)
 case 2:o=c
